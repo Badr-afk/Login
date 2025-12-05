@@ -1,5 +1,7 @@
 <?php
-session_start();
+include "establecer-sesion.php";
+
+//Hay que comprobar el csrf token para dejar pasar a a la aplicación
 
 if (isset($_POST['usuario'])) {
 
@@ -44,8 +46,8 @@ if (isset($_POST['usuario'])) {
         if ($row->password == $password_form) {
             // TODO CORRECTO
             //Cojo todos los datos del usuario y los paso como variable de sesión
-            $_SESSION['nombre']=$row->nombre;
-            $_SESSION['apellidos']=$row->apellidos;
+            $_SESSION['nombre'] = $row->nombre;
+            $_SESSION['apellidos'] = $row->apellidos;
             header('Location: inicio.php');
             exit();
         } else {

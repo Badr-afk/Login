@@ -1,5 +1,5 @@
 <?php
-session_start();
+include "establecer-sesion.php";
 ?>
 <!DOCTYPE html>
 <html lang="es">
