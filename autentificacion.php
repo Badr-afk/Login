@@ -43,6 +43,9 @@ if (isset($_POST['usuario'])) {
         // Verifica que la columna de la contraseña en tu BD se llame 'password'
         if ($row->password == $password_form) {
             // TODO CORRECTO
+            //Cojo todos los datos del usuario y los paso como variable de sesión
+            $_SESSION['nombre']=$row->nombre;
+            $_SESSION['apellidos']=$row->apellidos;
             header('Location: inicio.php');
             exit();
         } else {
