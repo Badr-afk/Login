@@ -1,62 +1,86 @@
 // validacion.js
 
-// Esperamos a que el DOM cargue completo
 document.addEventListener('DOMContentLoaded', function() {
     
+    // 1. Vincular el evento submit a nuestra función validarForm
     const form = document.getElementById('loginForm');
-
-    form.addEventListener('submit', function(e) {
-        
-        // Referencias a los elementos
-        const userInput = document.getElementById('userInput');
-        const passInput = document.getElementById('passInput');
-        const userError = document.getElementById('userError');
-        const passError = document.getElementById('passError');
-        
-        let esValido = true;
-
-        // 1. VALIDACIÓN DE USUARIO (Que no esté vacío)
-        if (userInput.value.trim() === "") {
-            e.preventDefault(); // Detenemos el envío solo si hay error
-            userInput.classList.add('is-invalid');
-            userError.style.display = 'block';
-            esValido = false;
-        } else {
-            userInput.classList.remove('is-invalid');
-            userError.style.display = 'none';
-        }
-
-        // 2. VALIDACIÓN DE CONTRASEÑA (Mínimo 6 caracteres)
-        if (passInput.value.trim().length < 6) {
-            e.preventDefault(); // Detenemos el envío solo si hay error
-            passInput.classList.add('is-invalid');
-            passError.style.display = 'block';
-            esValido = false;
-        } else {
-            passInput.classList.remove('is-invalid');
-            passError.style.display = 'none';
-        }
-
-        // Si esValido sigue siendo true, el formulario se enviará al servidor PHP
-        if (esValido) {
-            // Opcional: Mostrar alerta antes de enviar
-            // alert("Validación correcta. Enviando al servidor...");
-        }
-    });
-
-    // Limpiar errores mientras el usuario escribe
-    const inputs = document.querySelectorAll('.form-control');
-    inputs.forEach(item => {
-        item.addEventListener('input', function() {
-            if(this.classList.contains('is-invalid')){
-                this.classList.remove('is-invalid');
-                // Ocultar el div de error que está justo después del input
-                const errorDiv = this.nextElementSibling;
-                if(errorDiv && errorDiv.classList.contains('error-text')) {
-                    errorDiv.style.display = 'none';
-                }
+    if(form){
+        form.addEventListener('submit', function(e) {
+            // Llamamos a la función principal
+            let esValido = validarForm();
+    
+            // Si la función devuelve false, evitamos que se envíe el formulario
+            if (!esValido) {
+                e.preventDefault();
             }
         });
+    }
+
+    // 2. Vincular eventos para limpiar errores mientras escribes
+    document.getElementById('userInput').addEventListener('input', function() {
+        limpiarError('user');
+    });
+
+    document.getElementById('passInput').addEventListener('input', function() {
+        limpiarError('pass');
     });
 
 });
+
+function validarForm() {
+    // Obtenemos los valores
+    let usuario = document.getElementById('userInput').value.trim();
+    let password = document.getElementById('passInput').value.trim();
+
+    var comprobador = true;
+
+    // --- VALIDACIÓN USUARIO ---
+    if (usuario === "") {
+        marcarError('user', "er1"); 
+        comprobador = false;
+    }
+
+    // --- VALIDACIÓN CONTRASEÑA ---
+    if (password === "") {
+        marcarError('pass', "er1");
+        comprobador = false;
+    } else if (password.length < 6) { // CORREGIDO: Coincide con el texto de error (6 caracteres)
+        marcarError('pass', "er2");
+        comprobador = false;
+    }
+
+    return comprobador;
+}
+
+function marcarError(parametro, er) {
+    let inputId = parametro + 'Input'; 
+    let errorId = parametro + 'Error';
+    
+    let inputElem = document.getElementById(inputId);
+    let errorElem = document.getElementById(errorId);
+
+    // 1. Poner el borde rojo
+    inputElem.classList.add('is-invalid');
+
+    // 2. Mostrar el texto de error
+    errorElem.style.display = 'block';
+
+    // 3. Texto del error
+    if (er === "er1") {
+        if(parametro === 'user') errorElem.innerText = "El nombre de usuario es obligatorio";
+        if(parametro === 'pass') errorElem.innerText = "La contraseña es obligatoria";
+    } else if (er === "er2") {
+        if(parametro === 'pass') errorElem.innerText = "La contraseña debe tener al menos 6 caracteres";
+    }
+}
+
+function limpiarError(parametro) {
+    let inputId = parametro + 'Input';
+    let errorId = parametro + 'Error';
+
+    // Quitamos borde rojo
+    document.getElementById(inputId).classList.remove('is-invalid');
+    
+    // Ocultamos el texto
+    document.getElementById(errorId).style.display = 'none';
+}

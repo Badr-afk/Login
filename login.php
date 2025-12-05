@@ -1,8 +1,9 @@
 <?php
-    session_start()
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +27,7 @@
             border-top: 5px solid rgb(176, 106, 252);
             background: #212042;
             color: #57557A;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
         }
 
@@ -37,7 +38,6 @@
             letter-spacing: 1px;
         }
 
-        /* Botones Redes Sociales */
         .social-btn {
             display: flex;
             justify-content: center;
@@ -57,11 +57,18 @@
             cursor: pointer;
         }
 
-        .fa-twitter { color: #56ABEC; }
-        .fa-facebook { color: #1775F1; }
-        .fa-google { color: #CB5048; }
+        .fa-twitter {
+            color: #56ABEC;
+        }
 
-        /* Divisor flexible */
+        .fa-facebook {
+            color: #1775F1;
+        }
+
+        .fa-google {
+            color: #CB5048;
+        }
+
         .division {
             display: flex;
             align-items: center;
@@ -84,8 +91,9 @@
             white-space: nowrap;
         }
 
-        /* Formulario e Inputs */
-        .myform { padding: 0 10px; }
+        .myform {
+            padding: 0 10px;
+        }
 
         .form-control {
             background: #2A284D;
@@ -96,9 +104,8 @@
             margin-bottom: 20px;
         }
 
-        /* --- AQUÍ ESTÁ EL CAMBIO DEL PLACEHOLDER --- */
         .form-control::placeholder {
-            color: #8D8BBD; /* Mismo color que los labels para armonía */
+            color: #8D8BBD;
             opacity: 1;
         }
 
@@ -108,8 +115,7 @@
             box-shadow: none;
             color: #fff;
         }
-        
-        /* Estilos de Error (Rojo) */
+
         .form-control.is-invalid {
             border-color: #ff4d4d;
             background-image: none;
@@ -131,12 +137,16 @@
             font-size: 14px;
             transition: 0.3s;
         }
-        .bn:hover { color: #fff; }
+
+        .bn:hover {
+            color: #fff;
+        }
 
         .form-check-input {
             background-color: #2A284D;
             border-color: #57557A;
         }
+
         .form-check-label {
             font-size: 14px;
             color: #8D8BBD;
@@ -153,8 +163,10 @@
             align-items: center;
             justify-content: center;
         }
-        
-        .btn-primary small { font-size: 16px; }
+
+        .btn-primary small {
+            font-size: 16px;
+        }
 
         @media(max-width: 767px) {
             .forgot-pass-container {
@@ -162,8 +174,11 @@
                 margin-top: 10px;
             }
         }
+
         @media(min-width: 767px) {
-            .forgot-pass-container { text-align: right; }
+            .forgot-pass-container {
+                text-align: right;
+            }
         }
     </style>
 </head>
@@ -173,9 +188,16 @@
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div class="card py-4 px-3">
-                    
+
                     <p class="text-center mb-4">Login</p>
-                    
+                    <?php
+                    if (isset($_SESSION['error'])) {
+                        echo '<div class="alert alert-danger" role="alert">';
+                        echo $_SESSION['error'];
+                        echo '</div>';
+                        unset($_SESSION['error']);
+                    }
+                    ?>
                     <div class="row mx-auto w-100">
                         <div class="col-4 px-1"><a href="#" class="social-btn"><i class="fab fa-twitter"></i></a></div>
                         <div class="col-4 px-1"><a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a></div>
@@ -186,15 +208,7 @@
                         <span>Iniciar Sesión</span>
                     </div>
 
-                    <form class="myform" id="loginForm" method="POST" novalidate>
-                        <?php
-                            if(isset($_SESSION['error'])){
-                                echo '<div class="alert alert-danger" role="alert">';
-                                echo $_SESSION['error'];
-                                echo '</div>';
-                                unset($_SESSION['error']);//Hace desaperecer la key y la variable
-                            }
-                        ?>
+                    <form class="myform" id="loginForm" method="POST" action="autentificacion.php">
                         <div class="form-group">
                             <input type="text" name="usuario" class="form-control" id="userInput" placeholder="Usuario">
                             <div class="error-text" id="userError">El nombre de usuario es obligatorio</div>
@@ -204,7 +218,7 @@
                             <input type="password" name="password" class="form-control" id="passInput" placeholder="Contraseña">
                             <div class="error-text" id="passError">La contraseña debe tener al menos 6 caracteres</div>
                         </div>
-                        
+
                         <div class="row align-items-center mb-4">
                             <div class="col-md-6 col-12">
                                 <div class="form-check">
@@ -230,4 +244,5 @@
 
     <script src="validacion.js"></script>
 </body>
+
 </html>
