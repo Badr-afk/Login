@@ -12,7 +12,7 @@ include "establecer-sesion.php";
 </head>
 
 <body>
-    <h2>GRUD a tu Aplicación</h2>
+    <h2>Estas en Inicio</h2>
     <h2>Bienvenido, <?php echo $_SESSION['nombre'] . " " . $_SESSION['apellidos']; ?></h2>
     <a class="btn btn-secondary" href="./logout.php">Logout</a>
 </body>

@@ -1,6 +1,6 @@
 <?php
 session_set_cookie_params([
-    'lifetime' => 3600,                     // esto limita el tiempo de las cookies (opcional)
+    'lifetime' => 7200,                     // esto limita el tiempo de las cookies (opcional)
     'path' => '/',                          // indica desde que directorio está habilitada. Así, toda la web
     // 'domain' => 'tu-dominio.com',           // indica desde que dominio se puede acceder a ella únicamente
     //'secure' => isset($_SERVER['HTTPS']),   //*** solo acceso vía https (para el despliegue, no en desarrollos)
